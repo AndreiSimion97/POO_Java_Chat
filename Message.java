@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 package chat;
-
+import java.io.Serializable;
 /**
  *
  * @author asimion
  */
- public class Message {
+ public class Message implements Serializable{
     final private String mNumeExpeditor;
     final private String mContinut;
     /**
