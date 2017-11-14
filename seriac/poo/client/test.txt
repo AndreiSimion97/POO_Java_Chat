@@ -1,0 +1,1 @@
+aici vor intra clasele TextClient si ClientPeer
