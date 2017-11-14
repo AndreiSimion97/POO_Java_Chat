@@ -31,7 +31,7 @@ import java.io.Serializable;
     */
     @Override
     public String toString(){
-        return this.mNumeExpeditor + ": " + this.mContinut; 
+        return mNumeExpeditor + ": " + mContinut; 
     }
     
     /**
