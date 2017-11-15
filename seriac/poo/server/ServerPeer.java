@@ -16,13 +16,17 @@ import chat.*;
  */
 public class ServerPeer {
     private Socket mConnected ;
+    private DataInputStream mDIS;
+    private ObjectInputStream mOIS;
     /**
      * Constructor class ServerPeer
      * 
      * @param connected reprezinta Socket-ul pe care e connectat clientul 
      */
-    public ServerPeer(Socket connected){
+    public ServerPeer(Socket connected) throws IOException{
         mConnected = connected;
+        mDIS = new DataInputStream(mConnected.getInputStream());
+        mOIS = new ObjectInputStream(mDIS);
     }
     /**
      * Method run() - deserializeaza obiecte de tip Message
@@ -31,9 +35,9 @@ public class ServerPeer {
      */
     public void run() throws IOException, ClassNotFoundException{
         while(mConnected.isConnected()){
-            DataInputStream _in = new DataInputStream(mConnected.getInputStream());
-            ObjectInputStream _objIn = new ObjectInputStream(_in);
-            Message _mObj = (Message)_objIn.readObject();
+           // DataInputStream _in = new DataInputStream(mConnected.getInputStream());
+            //ObjectInputStream _objIn = new ObjectInputStream(_in);
+            Message _mObj = (Message)mOIS.readObject();
             System.out.println(_mObj.toString());   
         }
     }
