@@ -20,15 +20,18 @@ public class ClientPeer {
         */
     private Socket mConnectedClient;
     private String mSender;   
-       
-        /**
+    private DataOutputStream mDOS ;
+    private ObjectOutputStream mOOS;
+    /**
          * Constructor class ClientPeer
          * @param sender String care reprezinta expeditorul
          * @param connectedClient Socket pe care este coneatat un client
         */
-        public ClientPeer(String sender,Socket connectedClient){
+        public ClientPeer(String sender,Socket connectedClient) throws IOException{
                mSender = sender;
                mConnectedClient = connectedClient;
+               mDOS = new DataOutputStream(mConnectedClient.getOutputStream());
+               mOOS = new ObjectOutputStream(mDOS);
         }
         /**
          * Method sendMessage
@@ -38,9 +41,9 @@ public class ClientPeer {
          */
         public void sendMessage(String message) throws IOException{
             Message _message = new Message(mSender, message);
-            DataOutputStream outToServer = new DataOutputStream(mConnectedClient.getOutputStream());
-            ObjectOutputStream _objServerStream = new ObjectOutputStream(outToServer);
-           _objServerStream.writeObject(_message);
+            //DataOutputStream outToServer = new DataOutputStream(mConnectedClient.getOutputStream());
+            //ObjectOutputStream _objServerStream = new ObjectOutputStream(outToServer);
+           mOOS.writeObject(_message);
         }
         /**
          * Method sendMessage 
@@ -51,9 +54,9 @@ public class ClientPeer {
          */
         public void sendMessage(String message, String recipient) throws IOException{
             PrivateMessage _privateMessage = new PrivateMessage(recipient, mSender, message);
-            DataOutputStream outToServer = new DataOutputStream(mConnectedClient.getOutputStream());
-            ObjectOutputStream _objServerStream = new ObjectOutputStream(outToServer);
-            _objServerStream.writeObject(_privateMessage);
+            //DataOutputStream outToServer = new DataOutputStream(mConnectedClient.getOutputStream());
+            //ObjectOutputStream _objServerStream = new ObjectOutputStream(outToServer);
+            mOOS.writeObject(_privateMessage);
         }
         
 }
