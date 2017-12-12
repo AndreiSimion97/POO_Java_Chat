@@ -17,6 +17,7 @@ import java.io.ObjectOutputStream;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -27,13 +28,15 @@ public class ClientPeer implements Runnable {
     /**
      * Campuri privte ce definesc clasa ClientPeer
      */
-    private Socket mSocketClient;
-    private String mSender;
+    private final Socket mSocketClient;
+    private  String mSender;
     private static DataOutputStream mDOS;
    // private static DataInputStream mDIS;
     private  ObjectOutputStream mOOS;
     //private  ObjectInputStream mOIS;
-
+      DataInputStream dis ;
+            ObjectInputStream ois ;
+            JTextArea JTA;
     /**
      * Constructor class ClientPeer
      *
@@ -46,15 +49,19 @@ public class ClientPeer implements Runnable {
         mDOS = new DataOutputStream(mSocketClient.getOutputStream());
         mOOS = new ObjectOutputStream(mDOS);
         //mDIS = new DataInputStream(mConnectedClient.getInputStream());
+        dis = new DataInputStream(mSocketClient.getInputStream());
+        ois = new ObjectInputStream(dis);
         //mOIS = new ObjectInputStream(mDIS);
     }
 
+    @Override
     public void run() {
         try{    
-            DataInputStream dis = new DataInputStream(mSocketClient.getInputStream());
-            ObjectInputStream ois = new ObjectInputStream(dis);
             while(true){
-                System.out.println(ois.readObject().toString().trim());
+                //deserialozarea mesaj
+               // System.out.println(ois.readObject().toString().trim());
+               setOutputPane(JTA);
+               JTA.append(ois.readObject().toString().trim() + "\n");
             }
         }catch(IOException | ClassNotFoundException e){
             
@@ -89,6 +96,12 @@ public class ClientPeer implements Runnable {
     }
 
    
-
+    public void setUsername(String usr){
+        mSender = usr;
+    }
+    
+    public void setOutputPane(JTextArea jta) throws IOException, ClassNotFoundException{
+        JTA = jta;
+    }
    
 }
